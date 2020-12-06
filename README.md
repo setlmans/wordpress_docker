@@ -11,9 +11,8 @@ Playbook should save in /etc/ansible/playbooks.
 ```
 apt install ansible
 cd /etc/ansible/
-mkdir playbooks
-git clone 
-git 
+mkdir playbooks && cd playbooks
+https://github.com/setlmans/wordpress_docker.git
 ansible-playbook deploy-wp.yml
 ```
 ## Postconditions
