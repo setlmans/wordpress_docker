@@ -1,6 +1,6 @@
 ---
 - name: docker + docker compose
-  hosts: all
+  hosts: 
   become: yes
   vars:
     ansible_python_interpreter: /usr/bin/python3
