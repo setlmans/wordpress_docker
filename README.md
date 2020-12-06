@@ -13,6 +13,7 @@ apt install ansible
 cd /etc/ansible/
 mkdir playbooks && cd playbooks
 git clone https://github.com/setlmans/wordpress_docker.git
+cd wordpress_docker
 ansible-playbook deploy-wp.yml
 ```
 ## Postconditions
