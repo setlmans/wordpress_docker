@@ -1,0 +1,96 @@
+---
+- name: docker + docker compose
+  hosts: all
+  become: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+  - name: Install packages
+    apt:
+      name: "{{ item }}"
+      state: present
+      update_cache: yes
+    with_items:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+      - certbot
+      - haproxy
+    tags:
+      - docker
+  - name: Add Docker s official GPG key
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+    tags:
+      - docker
+  - name: Verify that we have the key with the fingerprint
+    apt_key:
+      id: 0EBFCD88
+      state: present
+    tags:
+      - docker
+  - name: Set up the stable repository
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+      state: present
+      update_cache: yes
+    tags:
+      - docker
+  - name: Update apt packages
+    apt:
+      update_cache: yes
+    tags:
+      - docker
+  - name: Install docker
+    apt:
+      name: docker-ce
+      state: present
+      update_cache: yes
+    #notify: Start docker on boot
+    tags:
+      - docker
+  - name: Add remote "admin" user to "docker" group
+    user:
+      name: "admin"
+      group: "docker"
+      append: yes
+    tags:
+      - docker
+  - name: Install docker-compose
+    get_url: 
+      url : https://github.com/docker/compose/releases/download/1.27.4/docker-compose-Linux-x86_64
+      dest: /usr/local/bin/docker-compose
+      mode: 'u+x,g+x'
+  - name: Copy file with owner and permissions
+    copy:
+      src: /etc/ansible/playbooks/configs/docker-compose.yml
+      dest: /root/docker-compose.yml
+      owner: root
+      group: root
+      mode: '0777'
+
+  - name: start docker compose
+    shell: 'docker-compose -f /root/docker-compose.yml up -d'
+
+  - name: add certificate to letsencrypt directory (if you have for your domain, if not - generate a new one)
+    copy: 
+      src: /etc/ansible/playbooks/configs/all.pem
+      dest: /etc/letsencrypt/all.pem
+      owner: root
+      group: root
+      mode: '0644'
+
+  - name: install config for haproxy
+    copy:
+      src: /etc/ansible/playbooks/configs/haproxy.cfg 
+      dest: /etc/haproxy/haproxy.cfg
+      owner: root
+      group: root
+      mode: '0644'
+  - name: Restart service httpd, in all cases
+    service:
+      name: haproxy
+      state: restarted
+  
