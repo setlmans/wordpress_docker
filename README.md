@@ -12,7 +12,7 @@ There are necessary to change all.pem to your own certificate for your domain.
 apt install ansible
 cd /etc/ansible/
 mkdir playbooks && cd playbooks
-https://github.com/setlmans/wordpress_docker.git
+git clone https://github.com/setlmans/wordpress_docker.git
 ansible-playbook deploy-wp.yml
 ```
 ## Postconditions
