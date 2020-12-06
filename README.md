@@ -10,7 +10,9 @@ Playbook should save in /etc/ansible/playbooks.
 ## Deploy
 ```
 apt install ansible
-cd /etc/ansible/playbooks
+cd /etc/ansible/
+mkdir playbooks
+git clone 
 git 
 ansible-playbook deploy-wp.yml
 ```
