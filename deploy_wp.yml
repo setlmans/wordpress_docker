@@ -65,7 +65,7 @@
       mode: 'u+x,g+x'
   - name: Copy file with owner and permissions
     copy:
-      src: /etc/ansible/playbooks/configs/docker-compose.yml
+      src: /etc/ansible/playbooks/wordpress_docker/configs/docker-compose.yml
       dest: /root/docker-compose.yml
       owner: root
       group: root
@@ -76,7 +76,7 @@
 
   - name: add certificate to letsencrypt directory (if you have for your domain, if not - generate a new one)
     copy: 
-      src: /etc/ansible/playbooks/configs/all.pem
+      src: /etc/ansible/playbooks/wordpress_docker/configs/all.pem
       dest: /etc/letsencrypt/all.pem
       owner: root
       group: root
@@ -84,7 +84,7 @@
 
   - name: install config for haproxy
     copy:
-      src: /etc/ansible/playbooks/configs/haproxy.cfg 
+      src: /etc/ansible/playbooks/wordpress_docker/configs/haproxy.cfg 
       dest: /etc/haproxy/haproxy.cfg
       owner: root
       group: root
