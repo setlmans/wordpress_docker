@@ -5,7 +5,7 @@ Also this playbook deploy haproxy and certbot on your host machine to set up SSL
 ## Requirements
 You should have ansible on your host machine, with ssh-key of necessary host.
 There are necessary to change all.pem to your own certificate for your domain.
-Playbook should save in /etc/ansible/playbooks.
+
 
 ## Deploy
 ```
